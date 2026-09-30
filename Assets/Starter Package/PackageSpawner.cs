@@ -1,19 +1,7 @@
 ﻿/*
  * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Modificado para Cargo Defenders
  */
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,19 +28,42 @@ public class PackageSpawner : MonoBehaviour
 
     public static Vector3 FindRandomLocation(ARPlane plane)
     {
-        // Select random triangle in Mesh
-        var mesh = plane.GetComponent<ARPlaneMeshVisualizer>().mesh;
-        var triangles = mesh.triangles;
-        var triangle = triangles[(int)Random.Range(0, triangles.Length - 1)] / 3 * 3;
-        var vertices = mesh.vertices;
-        var randomInTriangle = RandomInTriangle(vertices[triangle], vertices[triangle + 1]);
-        var randomPoint = plane.transform.TransformPoint(randomInTriangle);
+        var visualizer = plane.GetComponent<ARPlaneMeshVisualizer>();
+        if (visualizer == null || visualizer.mesh == null)
+        {
+            return plane.center; // Retorno seguro al centro del plano si no hay malla
+        }
 
-        return randomPoint;
+        var mesh = visualizer.mesh;
+        var triangles = mesh.triangles;
+        var vertices = mesh.vertices;
+
+        // VALIDACIÓN DE SEGURIDAD: Evita el crash si no hay suficientes triángulos o vértices
+        if (triangles == null || triangles.Length < 3 || vertices == null || vertices.Length < 3)
+        {
+            return plane.center;
+        }
+
+        // Selecciona un triángulo válido de manera segura
+        int triangleIndex = Random.Range(0, triangles.Length / 3) * 3;
+
+        int index0 = triangles[triangleIndex];
+        int index1 = triangles[triangleIndex + 1];
+
+        // Comprobación de índices dentro de los límites del arreglo de vértices
+        if (index0 >= vertices.Length || index1 >= vertices.Length)
+        {
+            return plane.center;
+        }
+
+        Vector3 randomInTriangle = RandomInTriangle(vertices[index0], vertices[index1]);
+        return plane.transform.TransformPoint(randomInTriangle);
     }
 
     public void SpawnPackage(ARPlane plane)
     {
+        if (PackagePrefab == null) return;
+
         var packageClone = GameObject.Instantiate(PackagePrefab);
         packageClone.transform.position = FindRandomLocation(plane);
 
@@ -61,6 +72,8 @@ public class PackageSpawner : MonoBehaviour
 
     private void Update()
     {
+        if (DrivingSurfaceManager == null) return;
+
         var lockedPlane = DrivingSurfaceManager.LockedPlane;
         if (lockedPlane != null)
         {
@@ -68,9 +81,13 @@ public class PackageSpawner : MonoBehaviour
             {
                 SpawnPackage(lockedPlane);
             }
-
-            var packagePosition = Package.gameObject.transform.position;
-            packagePosition.Set(packagePosition.x, lockedPlane.center.y, packagePosition.z);
+            else
+            {
+                // Mantiene el paquete pegado a la altura del plano
+                var packagePosition = Package.gameObject.transform.position;
+                packagePosition.y = lockedPlane.center.y;
+                Package.gameObject.transform.position = packagePosition;
+            }
         }
     }
 }

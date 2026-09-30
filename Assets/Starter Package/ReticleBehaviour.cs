@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
@@ -34,14 +32,16 @@ public class ReticleBehaviour : MonoBehaviour
 
     void Update()
     {
+        // Validaciones de seguridad previas
+        if (DrivingSurfaceManager == null || DrivingSurfaceManager.RaycastManager == null || Camera.main == null)
+            return;
+
         // 1. Centro de la pantalla en espacio de pantalla (píxeles)
-        var screenCenter = Camera.main
-            .ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        var screenCenter = Camera.main.ViewportToScreenPoint(new Vector3(0.5f, 0.5f, 0f));
 
         // 2. Lanzar rayo contra planos AR detectados
         var hits = new List<ARRaycastHit>();
-        DrivingSurfaceManager.RaycastManager.Raycast(
-            screenCenter, hits, TrackableType.PlaneWithinBounds);
+        DrivingSurfaceManager.RaycastManager.Raycast(screenCenter, hits, TrackableType.PlaneWithinBounds);
 
         // 3. Seleccionar impacto prioritario
         CurrentPlane = null;
@@ -59,20 +59,35 @@ public class ReticleBehaviour : MonoBehaviour
             else
             {
                 // Unity 6: hits.Find() en vez de SingleOrDefault()
-                hit = hits.Find(x =>
-                    x.trackableId == lockedPlane.trackableId);
+                hit = hits.Find(x => x.trackableId == lockedPlane.trackableId);
             }
         }
 
-        // 4. Mover el retículo al punto de intersección
+        // 4. Mover el retículo al punto de intersección de forma segura
         if (hit.HasValue)
         {
-            CurrentPlane = DrivingSurfaceManager.PlaneManager
-                               .GetPlane(hit.Value.trackableId);
-            transform.position = hit.Value.pose.position;
+            try
+            {
+                // Protección para el error NullReferenceException en hit.Value.pose
+                Pose targetPose = hit.Value.pose;
+                transform.position = targetPose.position;
+
+                if (DrivingSurfaceManager.PlaneManager != null)
+                {
+                    CurrentPlane = DrivingSurfaceManager.PlaneManager.GetPlane(hit.Value.trackableId);
+                }
+            }
+            catch (System.Exception)
+            {
+                // Si la Pose de AR Foundation aún no es válida en este frame, invalida el impacto
+                CurrentPlane = null;
+            }
         }
 
         // 5. Visible solo cuando hay plano válido bajo el retículo
-        Child.SetActive(CurrentPlane != null);
+        if (Child != null)
+        {
+            Child.SetActive(CurrentPlane != null);
+        }
     }
 }
