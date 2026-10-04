@@ -3,7 +3,77 @@ guid: 6b48d0ea19da63e4988acc7be214f46a
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_ban
+    second: {fileID: 2100000, guid: 28bce2e7ff9027f40843af0895f34ef2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_besi_box
+    second: {fileID: 2100000, guid: b94c05bcdcb3ff546a8073852f262861, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_black
+    second: {fileID: 2100000, guid: 263b56d3fe478e4428f914e011cb9909, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_body
+    second: {fileID: 2100000, guid: c4163fca8fd023245b33e93303121c17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_box
+    second: {fileID: 2100000, guid: 4c6f51d10e2c67a47b682626c4d84538, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_kaca
+    second: {fileID: 2100000, guid: d8580155633be94439a58b06c7265e0c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_lamp_red
+    second: {fileID: 2100000, guid: f51fcc6f90b7e694da257cc377a31361, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_light_ban
+    second: {fileID: 2100000, guid: d354bacebdedf6b45be8453d20ddf518, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: col_pelek
+    second: {fileID: 2100000, guid: 0f549eb499ee33246a45b9c74558f06d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lantai
+    second: {fileID: 2100000, guid: 4d7f595b42a0ddd4aa7f181c3b6e3d21, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: light
+    second: {fileID: 2100000, guid: 7719f0cde08712c42ae92f5cedacb23c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: uv_ban_belakang_3
+    second: {fileID: 2100000, guid: b793e2ac51eb2ab4a864fd2d1d02282a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: uv_ban_depan
+    second: {fileID: 2100000, guid: 294d4e12fff15f245930d53da270bb34, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: uv_col_ban_belakang
+    second: {fileID: 2100000, guid: d1187c12d2826694bacf50876228e346, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

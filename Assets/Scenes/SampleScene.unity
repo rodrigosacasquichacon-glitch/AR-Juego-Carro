@@ -3940,9 +3940,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74f2e7dc86ac4a77899d283f1191ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarManager
-  CarPrefab: {fileID: 6378763645007927171, guid: e5b76e4e2953b40899e6eb98c85b5f32, type: 3}
+  CarPrefab: {fileID: 8505941808158152098, guid: 6ca2e5d9638aa424bbfa3ad518d8f6a5, type: 3}
   Reticle: {fileID: 825335637}
   DrivingSurfaceManager: {fileID: 331264289}
+  heightOffset: 0.2
   Car: {fileID: 0}
 --- !u!4 &595335449
 Transform:
@@ -8690,7 +8691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RivalSpawner
   drivingSurfaceManager: {fileID: 331264289}
-  rivalCarPrefab: {fileID: 6378763645007927171, guid: 67e95f725fd381744aef1233c3a9dc86, type: 3}
+  rivalCarPrefab: {fileID: 6378763645007927171, guid: e5b76e4e2953b40899e6eb98c85b5f32, type: 3}
   spawnInterval: 20
   maxRivals: 2
 --- !u!1 &1235755226
